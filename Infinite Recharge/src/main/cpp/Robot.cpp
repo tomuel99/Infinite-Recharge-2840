@@ -30,10 +30,17 @@
 
 #include <math.h>
 
+frc::Joystick stick{0};
+rev::SparkMax frontLeft{0}, frontRight{1}, backLeft{2}, backRight{3}
+frc::RobotDrive myRobot{frontLeft, backLeft, backRight, frontRight};
+frc::Timer timer;
+frc::SendableChooser autoChoice;
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+  frc::SmartDashboard::PutNumber("Timer", timer.Get());
 }
 
 /**
@@ -44,7 +51,9 @@ void Robot::RobotInit() {
  * <p> This runs after the mode specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
-void Robot::RobotPeriodic() {}
+void Robot::RobotPeriodic() {
+  //myRobot.ArcadeDrive(1.0, 0.0)
+}
 
 /**
  * This autonomous (along with the chooser code above) shows how to select
