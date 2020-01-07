@@ -4,12 +4,11 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-//wahoo this is a test
 #include <Robot.h>
 #include <iostream>
 #include <memory>
 #include <string>
-//weeee github
+
 #include <SageFunctions.h>
 #include <cameraServer/CameraServer.h>
 #include <frc/IterativeRobot.h>
