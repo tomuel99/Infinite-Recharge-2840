@@ -95,20 +95,20 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
-  if (stick.GetPOV(0)) {
+  if (stick.GetPOV(0)) {//increase sensitivity by pressing up on D pad
     sensitivity += 0.01;
   }
-  else if (stick.GetPOV(180)) {
+  else if (stick.GetPOV(180)) {//decrease sensitivity by pressing down on D pad
     sensitivity -= 0.01;
   }
-  if (sensitivity > 1.0) {
+  if (sensitivity > 1.0) {//max out sensitivity at 1.0
     sensitivity = 1.0;
   }
-  else if (sensitivity < 0.1) {
+  else if (sensitivity < 0.1) {//minimum sensitivity = 0.1
     sensitivity = 0.1;
   }
-  turn = -axis(4)*sensitivity;
-  speed = axis(1)*sensitivity;
+  turn = -axis(4)*sensitivity; //turn by using right stick
+  speed = axis(1)*sensitivity; //throttle on left stick
   myRobot.ArcadeDrive(speed, turn);
 }
 
