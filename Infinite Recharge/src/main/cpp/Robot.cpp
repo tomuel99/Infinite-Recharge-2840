@@ -35,6 +35,8 @@ frc::RobotDrive myRobot{frontLeft, backLeft, backRight, frontRight};
 frc::Timer timer;
 frc::SendableChooser autoChoice;
 
+double speed, turn, sensitivity = 1.0;
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
@@ -72,8 +74,12 @@ void Robot::AutonomousInit() {
   std::cout << "Auto selected: " << m_autoSelected << std::endl;
 
   if (m_autoSelected == kAutoNameCustom) {
+    timer.Reset();
+    timer.Start();
     // Custom Auto goes here
   } else {
+    timer.Reset();
+    timer.Start();
     // Default Auto goes here
   }
 }
@@ -88,7 +94,23 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  if (stick.GetPOV(0)) {
+    sensitivity += 0.01;
+  }
+  else if (stick.GetPOV(180)) {
+    sensitivity -= 0.01;
+  }
+  if (sensitivity > 1.0) {
+    sensitivity = 1.0;
+  }
+  else if (sensitivity < 0.1) {
+    sensitivity = 0.1;
+  }
+  turn = -axis(4)*sensitivity;
+  speed = axis(1)*sensitivity;
+  myRobot.ArcadeDrive(speed, turn);
+}
 
 void Robot::TestPeriodic() {}
 
