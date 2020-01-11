@@ -25,15 +25,15 @@
 #include "networktables/NetworkTable.h"
 #include "networkTables/NetworkTableInstance.h"
 //#include "PigeonIMU.h"
-#include <ctre/Phoenix.h>
+//#include <ctre/Phoenix.h>
 
 #include <math.h>
 
 frc::Joystick stick{0};
-rev::SparkMax frontLeft{0}, frontRight{1}, backLeft{2}, backRight{3}
+rev::SparkMax frontLeft{0}, frontRight{1}, backLeft{2}, backRight{3};
 frc::RobotDrive myRobot{frontLeft, backLeft, backRight, frontRight};
 frc::Timer timer;
-frc::SendableChooser autoChoice;
+//frc::SendableChooser autoChoice;
 
 double speed, turn, sensitivity = 1.0;
 
