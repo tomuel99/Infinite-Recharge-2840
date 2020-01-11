@@ -34,6 +34,9 @@ rev::SparkMax frontLeft{0}, frontRight{1}, backLeft{2}, backRight{3};
 frc::RobotDrive myRobot{frontLeft, backLeft, backRight, frontRight};
 frc::Timer timer;
 //frc::SendableChooser autoChoice;
+double axis(int axisNumber) {
+  return stick.GetRawAxis(axisNumber);
+}
 
 double speed, turn, sensitivity = 1.0;
 
