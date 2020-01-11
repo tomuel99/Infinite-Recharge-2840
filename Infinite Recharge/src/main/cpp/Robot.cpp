@@ -26,7 +26,7 @@
 #include "networkTables/NetworkTableInstance.h"
 //#include "PigeonIMU.h"
 //#include <ctre/Phoenix.h>
-
+#include "rev/SparkMax.h"
 #include <math.h>
 
 frc::Joystick stick{0};
