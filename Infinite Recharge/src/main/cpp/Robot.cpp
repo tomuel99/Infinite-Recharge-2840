@@ -19,7 +19,7 @@
 #include <frc/Spark.h>
 #include <frc/Encoder.h>
 #include <frc/WPILib.h>
-#include <OI.cpp>
+#include <OI.h>
 #include <frc/PowerDistributionPanel.h>
 #include <frc/LiveWindow/LiveWindow.h>
 #include "networktables/NetworkTable.h"
@@ -30,13 +30,9 @@
 //#include <math.h>
 
 frc::Joystick stick{0};
-rev::SparkMax frontLeft{0}, frontRight{1}, backLeft{2}, backRight{3};
+rev::SparkMax frontLeft{0}, frontRight{1}, backLeft{2}, backRight{3}, intake{4}, internal{5}, shooter{6}, panel{7};
 frc::RobotDrive myRobot{frontLeft, backLeft, backRight, frontRight};
 frc::Timer timer;
-//frc::SendableChooser autoChoice;
-double axis(int axisNumber) {
-  return stick.GetRawAxis(axisNumber);
-}
 
 double speed, turn, sensitivity = 1.0;
 
@@ -44,7 +40,7 @@ void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-  frc::SmartDashboard::PutNumber("Timer", timer.Get());
+  //frc::SmartDashboard::PutNumber("Timer", timer.Get());
 }
 
 /**
@@ -57,6 +53,7 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() {
   //myRobot.ArcadeDrive(1.0, 0.0)
+  frc::SmartDashboard::PutNumber("Timer", timer.Get());
 }
 
 /**
@@ -110,8 +107,8 @@ void Robot::TeleopPeriodic() {
   else if (sensitivity < 0.1) {//minimum sensitivity = 0.1
     sensitivity = 0.1;
   }
-  turn = -axis(4)*sensitivity; //turn by using right stick
-  speed = axis(1)*sensitivity; //throttle on left stick
+  turn = -stick.GetRawAxis(4)*sensitivity; //turn by using right stick
+  speed = stick.GetRawAxis(1)*sensitivity; //throttle on left stick
   myRobot.ArcadeDrive(speed, turn);
 }
 
