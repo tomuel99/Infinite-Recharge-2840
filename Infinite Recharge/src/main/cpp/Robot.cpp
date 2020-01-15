@@ -86,7 +86,12 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
   if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
+    if (timer.Get() < 3) {
+      myRobot.ArcadeDrive(-0.5, 0.0);
+    }
+    else {
+      myRobot.ArcadeDrive(0.0, 0.0);
+    }
   } else {
     // Default Auto goes here
   }
