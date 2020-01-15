@@ -4,12 +4,11 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-//wahoo this is a test
 #include <Robot.h>
 #include <iostream>
 #include <memory>
 #include <string>
-//weeee github
+
 #include <SageFunctions.h>
 #include <cameraServer/CameraServer.h>
 #include <frc/IterativeRobot.h>
@@ -26,15 +25,20 @@
 #include "networktables/NetworkTable.h"
 #include "networkTables/NetworkTableInstance.h"
 //#include "PigeonIMU.h"
-#include <ctre/Phoenix.h>
-
-#include <math.h>
+//#include <ctre/Phoenix.h>
+#include "rev/SparkMax.h"
+//#include <math.h>
 
 frc::Joystick stick{0};
-rev::SparkMax frontLeft{0}, frontRight{1}, backLeft{2}, backRight{3}
+rev::SparkMax frontLeft{0}, frontRight{1}, backLeft{2}, backRight{3};
 frc::RobotDrive myRobot{frontLeft, backLeft, backRight, frontRight};
 frc::Timer timer;
-frc::SendableChooser autoChoice;
+//frc::SendableChooser autoChoice;
+double axis(int axisNumber) {
+  return stick.GetRawAxis(axisNumber);
+}
+
+double speed, turn, sensitivity = 1.0;
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
@@ -73,8 +77,12 @@ void Robot::AutonomousInit() {
   std::cout << "Auto selected: " << m_autoSelected << std::endl;
 
   if (m_autoSelected == kAutoNameCustom) {
+    timer.Reset();
+    timer.Start();
     // Custom Auto goes here
   } else {
+    timer.Reset();
+    timer.Start();
     // Default Auto goes here
   }
 }
@@ -89,7 +97,23 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  if (stick.GetPOV(0)) {//increase sensitivity by pressing up on D pad
+    sensitivity += 0.01;
+  }
+  else if (stick.GetPOV(180)) {//decrease sensitivity by pressing down on D pad
+    sensitivity -= 0.01;
+  }
+  if (sensitivity > 1.0) {//max out sensitivity at 1.0
+    sensitivity = 1.0;
+  }
+  else if (sensitivity < 0.1) {//minimum sensitivity = 0.1
+    sensitivity = 0.1;
+  }
+  turn = -axis(4)*sensitivity; //turn by using right stick
+  speed = axis(1)*sensitivity; //throttle on left stick
+  myRobot.ArcadeDrive(speed, turn);
+}
 
 void Robot::TestPeriodic() {}
 
